@@ -14,6 +14,8 @@ export default function Home() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
 
+  return <h1>It works!</h1>;
+
   useEffect(() => {
     updatePageSEO(getHomeSEO());
   }, []);
