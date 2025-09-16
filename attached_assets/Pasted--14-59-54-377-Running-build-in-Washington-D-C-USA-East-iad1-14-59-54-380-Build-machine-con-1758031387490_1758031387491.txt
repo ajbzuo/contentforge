@@ -1,0 +1,56 @@
+[14:59:54.377] Running build in Washington, D.C., USA (East) – iad1
+[14:59:54.380] Build machine configuration: 2 cores, 8 GB
+[14:59:54.403] Cloning github.com/ajbzuo/contentforge (Branch: main, Commit: 9cf62ab)
+[14:59:55.078] Cloning completed: 674.000ms
+[14:59:55.180] Restored build cache from previous deployment (C49EsWUXqjyAPi6mzLWakyKFkM3h)
+[14:59:55.696] Running "vercel build"
+[14:59:56.072] Vercel CLI 47.1.1
+[14:59:56.237] WARN! Due to `builds` existing in your configuration file, the Build and Development Settings defined in your Project Settings will not apply. Learn More: https://vercel.link/unused-build-settings
+[14:59:56.667] Installing dependencies...
+[14:59:58.175] 
+[14:59:58.176] up to date in 1s
+[14:59:58.176] 
+[14:59:58.177] 64 packages are looking for funding
+[14:59:58.177]   run `npm fund` for details
+[14:59:58.210] Running "npm run build"
+[14:59:58.316] 
+[14:59:58.317] > rest-express@1.0.0 build
+[14:59:58.317] > vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+[14:59:58.317] 
+[14:59:58.599] [36mvite v5.4.19 [32mbuilding for production...[36m[39m
+[14:59:58.662] transforming...
+[14:59:58.997] Browserslist: browsers data (caniuse-lite) is 11 months old. Please run:
+[14:59:58.997]   npx update-browserslist-db@latest
+[14:59:58.998]   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+[14:59:59.978] [33m[vite:css] @import must precede all other statements (besides @charset or empty @layer)
+[14:59:59.978] 129|  
+[14:59:59.978] 130|  /* Font imports */
+[14:59:59.978] 131|  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+[14:59:59.978]    |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[14:59:59.978] 132|  @import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&display=swap');
+[14:59:59.978] 133|  [39m
+[14:59:59.979] [33m[vite:css] @import must precede all other statements (besides @charset or empty @layer)
+[14:59:59.979] 130|  /* Font imports */
+[14:59:59.979] 131|  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+[14:59:59.979] 132|  @import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&display=swap');
+[14:59:59.979]    |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[14:59:59.979] 133|  
+[14:59:59.979] 134|  .font-serif {[39m
+[15:00:02.898] [32m✓[39m 1679 modules transformed.
+[15:00:03.170] rendering chunks...
+[15:00:03.181] computing gzip size...
+[15:00:03.198] [2m../dist/public/[22m[32mindex.html                 [39m[1m[2m  3.54 kB[22m[1m[22m[2m │ gzip:   1.26 kB[22m
+[15:00:03.198] [2m../dist/public/[22m[2massets/[22m[35mindex-DBtG-JFT.css  [39m[1m[2m 80.60 kB[22m[1m[22m[2m │ gzip:  13.22 kB[22m
+[15:00:03.199] [2m../dist/public/[22m[2massets/[22m[36mindex-C_KowQPJ.js   [39m[1m[2m443.40 kB[22m[1m[22m[2m │ gzip: 133.88 kB[22m
+[15:00:03.199] [32m✓ built in 4.57s[39m
+[15:00:03.258] 
+[15:00:03.258]   dist/index.js  4.5kb
+[15:00:03.259] 
+[15:00:03.259] ⚡ Done in 11ms
+[15:00:03.330] Build Completed in /vercel/output [7s]
+[15:00:03.456] Deploying outputs...
+[15:00:05.625] Deployment completed
+[15:00:06.418] Creating build cache...
+[15:00:20.293] Created build cache: 13.873s
+[15:00:20.294] Uploading build cache [85.02 MB]
+[15:00:21.709] Build cache uploaded: 1.416s
