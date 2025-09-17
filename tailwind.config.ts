@@ -52,7 +52,7 @@ export default {
           "5": "var(--chart-5)",
         },
         sidebar: {
-          DEFAULT: "var(--sidebar-background)",
+          DEFAULT: "var(--sidebar)",
           foreground: "var(--sidebar-foreground)",
           primary: "var(--sidebar-primary)",
           "primary-foreground": "var(--sidebar-primary-foreground)",
@@ -61,6 +61,12 @@ export default {
           border: "var(--sidebar-border)",
           ring: "var(--sidebar-ring)",
         },
+        "time-red": "var(--time-red)",
+      },
+      fontFamily: {
+        sans: ["var(--font-sans)", "Inter", "system-ui", "sans-serif"],
+        serif: ["var(--font-serif)", "Source Serif Pro", "serif"],
+        mono: ["var(--font-mono)", "JetBrains Mono", "monospace"],
       },
       keyframes: {
         "accordion-down": {
@@ -79,12 +85,68 @@ export default {
             height: "0",
           },
         },
+        "scroll-left": {
+          "0%": {
+            transform: "translateX(100%)",
+          },
+          "100%": {
+            transform: "translateX(-100%)",
+          },
+        },
+        fadeIn: {
+          from: {
+            opacity: "0",
+            transform: "translateY(20px)",
+          },
+          to: {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
+        pulse: {
+          "0%, 100%": {
+            opacity: "1",
+          },
+          "50%": {
+            opacity: "0.5",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "scroll-left": "scroll-left 30s linear infinite",
+        "fade-in": "fadeIn 0.6s ease-in",
+        pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+      },
+      typography: {
+        DEFAULT: {
+          css: {
+            color: "var(--foreground)",
+            maxWidth: "none",
+            p: {
+              marginBottom: "1.5rem",
+              lineHeight: "1.75",
+            },
+            "h1, h2, h3, h4, h5, h6": {
+              fontFamily: "Source Serif Pro, serif",
+              fontWeight: "700",
+              color: "var(--foreground)",
+            },
+            blockquote: {
+              borderLeftColor: "var(--time-red)",
+              borderLeftWidth: "4px",
+              paddingLeft: "1.5rem",
+              fontStyle: "italic",
+              color: "var(--muted-foreground)",
+            },
+          },
+        },
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+  plugins: [
+    require("tailwindcss-animate"), 
+    require("@tailwindcss/typography")
+  ],
 } satisfies Config;

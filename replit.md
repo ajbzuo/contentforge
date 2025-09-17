@@ -1,130 +1,48 @@
-# TIME Magazine Replica - replit.md
+# Overview
 
-## Overview
+This is a full-stack news magazine web application built as a TIME-style publication. The application features a modern React frontend with a news article management system, category-based navigation, search functionality, and a responsive design. The backend is built with Express.js and includes database integration with PostgreSQL through Drizzle ORM, though it currently uses in-memory storage as the default implementation.
 
-This is a full-stack React application that replicates the Time.com website experience. The application serves as a high-performance, content-driven news website showcasing 50 sample articles across various categories with client-side routing, search functionality, and responsive design.
+The application provides a complete news reading experience with featured articles, breaking news tickers, category sections, and individual article pages. It includes a comprehensive design system built with shadcn/ui components and Tailwind CSS.
 
-## User Preferences
+# User Preferences
 
 Preferred communication style: Simple, everyday language.
 
-## System Architecture
+# System Architecture
 
-### Frontend Architecture
-- **Framework**: React 18 with TypeScript
-- **Bundler**: Vite for fast development and optimized builds
-- **Routing**: Wouter for client-side routing (lightweight React Router alternative)
-- **State Management**: TanStack React Query for server state management
-- **UI Framework**: Radix UI components with shadcn/ui design system
-- **Styling**: Tailwind CSS with custom TIME-branded color scheme
-- **Build Tool**: ESBuild for backend bundling
+## Frontend Architecture
+- **Framework**: React 18 with TypeScript running on Vite for fast development and building
+- **Routing**: Wouter for lightweight client-side routing with routes for home, article detail, and category pages  
+- **State Management**: TanStack Query for server state management and data fetching
+- **Styling**: Tailwind CSS with a custom design system using CSS variables for theming
+- **UI Components**: shadcn/ui component library providing consistent, accessible components
+- **Data Flow**: Custom hooks (useArticles, useArticle) manage article data with search and filtering capabilities
 
-### Backend Architecture
-- **Server**: Express.js with TypeScript
-- **Database**: PostgreSQL with Drizzle ORM (configured but not actively used)
-- **Database Provider**: Neon Database (@neondatabase/serverless)
-- **Session Management**: PostgreSQL-based sessions with connect-pg-simple
-- **Development**: Hot reload with Vite middleware integration
+## Backend Architecture
+- **Server Framework**: Express.js with TypeScript for the REST API
+- **Database Layer**: Drizzle ORM configured for PostgreSQL with schema-first approach
+- **Storage Interface**: Abstracted storage layer with in-memory implementation (MemStorage) and interface for database integration
+- **API Structure**: RESTful endpoints with `/api` prefix, error handling middleware, and request logging
+- **Development Setup**: Hot module replacement with Vite integration in development mode
 
-### Data Management
-- **Primary Data Source**: Static JSON file (`client/src/data/articles.json`) containing 50 articles
-- **Schema Validation**: Zod schemas for type safety
-- **Database Schema**: Drizzle schema defined but application primarily uses static data
-- **Query Caching**: TanStack React Query with infinite stale time for static content
+## Data Storage Solutions
+- **Primary Database**: PostgreSQL configured through Drizzle ORM with migrations support
+- **ORM**: Drizzle ORM with Zod schema validation for type safety
+- **Current Implementation**: In-memory storage (MemStorage) for development, easily swappable with database implementation
+- **Schema**: User management with username/password authentication structure defined in shared schema
 
-## Key Components
-
-### Core Pages
-1. **Home Page** (`/`) - Featured carousel, category filters, paginated article grid
-2. **Category Pages** (`/category/:name`) - Filtered articles by category with pagination
-3. **Article Detail Pages** (`/article/:slug`) - Full article display with metadata
-4. **404 Page** - Custom not found page
-
-### UI Components
-- **ArticleCard** - Reusable article preview component
-- **FeaturedCarousel** - Auto-rotating featured articles slider
-- **CategoryFilter** - Category selection buttons
-- **SearchOverlay** - Full-screen search interface
-- **Header/Footer** - Site navigation and branding
-
-### Data Structure
-```typescript
-Article {
-  id: string
-  title: string
-  slug: string
-  excerpt: string
-  content: string
-  author: string
-  date: string
-  category: string
-  imageUrl: string
-  readTime: string
-  featured: boolean
-}
-```
-
-## Data Flow
-
-### Article Loading
-1. Static JSON data imported at build time
-2. React Query manages caching and provides consistent API
-3. Custom hooks (`useArticles`, `useArticleBySlug`, etc.) abstract data access
-4. No backend API calls - all data served from static import
-
-### Search Functionality
-1. Client-side text search over article titles, excerpts, and authors
-2. Real-time filtering as user types
-3. Search overlay with keyboard navigation support
-
-### Navigation Flow
-1. Wouter handles client-side routing
-2. SEO metadata updated dynamically per page
-3. Responsive navigation with mobile menu support
+## Authentication and Authorization
+- **Session Management**: Express sessions with PostgreSQL session store (connect-pg-simple)
+- **User Schema**: Basic user model with UUID primary keys, unique usernames, and password storage
+- **Architecture**: Prepared for authentication implementation with user storage interface and schema validation
 
 ## External Dependencies
+- **Database**: Neon Database serverless PostgreSQL for production deployment
+- **UI Framework**: Radix UI primitives for accessible component foundation
+- **Form Handling**: React Hook Form with Zod resolvers for form validation  
+- **Image Assets**: Unsplash for article imagery and placeholder content
+- **Fonts**: Google Fonts integration (Source Serif Pro, Inter, JetBrains Mono)
+- **Development Tools**: Replit-specific plugins for development environment integration
+- **Build Tools**: esbuild for server bundling, PostCSS for CSS processing
 
-### UI and Styling
-- **Radix UI**: Accessible component primitives
-- **Tailwind CSS**: Utility-first CSS framework
-- **Lucide React**: Icon library
-- **class-variance-authority**: Component variant management
-
-### Development Tools
-- **TypeScript**: Type safety across the stack
-- **Vite**: Development server and build tool
-- **ESLint/Prettier**: Code quality and formatting
-- **PostCSS**: CSS processing
-
-### Backend Dependencies
-- **Express**: Web server framework
-- **Drizzle ORM**: Database toolkit (configured for future use)
-- **Zod**: Schema validation
-- **Connect-pg-simple**: PostgreSQL session store
-
-## Deployment Strategy
-
-### Build Process
-1. **Frontend**: Vite builds React app to `dist/public`
-2. **Backend**: ESBuild bundles Express server to `dist/index.js`
-3. **Assets**: Static files served from build output
-
-### Environment Configuration
-- **Development**: `npm run dev` - Vite dev server with Express backend
-- **Production**: `npm run build && npm start` - Optimized builds with static serving
-- **Database**: PostgreSQL connection via `DATABASE_URL` environment variable
-
-### Replit Deployment
-- Single command deployment: `npm run dev` for development
-- Production build: `npm run build` followed by `npm start`
-- Static asset serving handled by Express in production
-- Database migrations: `npm run db:push` (when needed)
-
-### Performance Optimizations
-- **Static Data**: Articles served from JSON import (no database queries)
-- **Image Optimization**: Lazy loading with `loading="lazy"`
-- **Code Splitting**: Vite handles automatic code splitting
-- **Caching**: React Query caches with infinite stale time for static content
-- **SEO**: Dynamic meta tags and structured data
-
-The architecture prioritizes development speed and deployment simplicity while maintaining the visual fidelity and user experience of the original Time.com website.
+The application follows a modular architecture with clear separation between frontend and backend concerns, making it easy to extend functionality and integrate additional features like user authentication, content management, and real-time updates.

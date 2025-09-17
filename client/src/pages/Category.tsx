@@ -1,138 +1,135 @@
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useParams } from "wouter";
-import { useArticlesByCategory } from "@/hooks/useArticles";
-import { updatePageSEO, getCategorySEO } from "@/lib/seo";
+import { useArticles } from "@/hooks/use-articles";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import ArticleCard from "@/components/ArticleCard";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-
-const ARTICLES_PER_PAGE = 12;
+import { searchArticles } from "@/utils/search";
 
 export default function Category() {
-  const params = useParams();
-  const category = params.name || "";
-  const { data: articles = [], isLoading } = useArticlesByCategory(category);
-  const [currentPage, setCurrentPage] = useState(1);
+  const { category } = useParams();
+  const { articles, categories, isLoading } = useArticles();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [visibleArticles, setVisibleArticles] = useState(12);
 
-  useEffect(() => {
-    if (category) {
-      const capitalizedCategory = category.charAt(0).toUpperCase() + category.slice(1);
-      updatePageSEO(getCategorySEO(capitalizedCategory));
-    }
-  }, [category]);
+  const categoryInfo = categories.find(cat => cat.id === category);
+  
+  const categoryArticles = useMemo(() => {
+    const filtered = articles.filter(article => 
+      article.category.toLowerCase() === category?.toLowerCase()
+    );
+    
+    if (!searchQuery) return filtered;
+    return searchArticles(filtered, searchQuery);
+  }, [articles, category, searchQuery]);
 
-  const totalPages = Math.ceil(articles.length / ARTICLES_PER_PAGE);
-  const startIndex = (currentPage - 1) * ARTICLES_PER_PAGE;
-  const currentArticles = articles.slice(startIndex, startIndex + ARTICLES_PER_PAGE);
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
 
-  const goToPage = (page: number) => {
-    setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const loadMoreArticles = () => {
+    setVisibleArticles(prev => prev + 12);
   };
 
   if (isLoading) {
     return (
-      <div className="min-h-screen py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="animate-pulse">
-            <div className="h-8 bg-gray-300 w-48 mb-8"></div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="bg-gray-300 rounded-lg h-96"></div>
-              ))}
-            </div>
-          </div>
+      <div className="min-h-screen bg-background">
+        <Header onSearch={handleSearch} />
+        <div className="container mx-auto px-4 py-12">
+          <div className="text-center">Loading articles...</div>
         </div>
+        <Footer />
       </div>
     );
   }
 
-  if (articles.length === 0) {
+  if (!categoryInfo) {
     return (
-      <div className="min-h-screen py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold font-serif text-time-dark mb-8 capitalize">
-            {category} News
-          </h1>
-          <div className="text-center py-16">
-            <p className="text-xl text-gray-600">No articles found in this category.</p>
+      <div className="min-h-screen bg-background">
+        <Header onSearch={handleSearch} />
+        <div className="container mx-auto px-4 py-12">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold mb-4">Category Not Found</h1>
+            <p className="text-muted-foreground">The requested category does not exist.</p>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold font-serif text-time-dark mb-8 capitalize" data-testid="category-title">
-          {category} News
-        </h1>
-        
-        <p className="text-gray-600 mb-8" data-testid="category-count">
-          {articles.length} article{articles.length !== 1 ? 's' : ''} in {category}
-        </p>
-
-        {/* Articles Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12" data-testid="category-articles-grid">
-          {currentArticles.map((article) => (
-            <ArticleCard key={article.id} article={article} />
-          ))}
+    <div className="min-h-screen bg-background">
+      <Header onSearch={handleSearch} />
+      
+      <main className="container mx-auto px-4 py-8">
+        {/* Category Header */}
+        <div className="mb-12">
+          <h1 
+            className="text-4xl lg:text-5xl font-bold text-time-red mb-4" 
+            style={{ fontFamily: "'Source Serif Pro', serif" }}
+          >
+            {categoryInfo.name.toUpperCase()}
+          </h1>
+          <p className="text-lg text-muted-foreground">
+            Latest news and analysis in {categoryInfo.name.toLowerCase()}
+          </p>
+          {searchQuery && (
+            <p className="text-sm text-muted-foreground mt-2">
+              Search results for "{searchQuery}" in {categoryInfo.name}
+            </p>
+          )}
         </div>
 
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="flex items-center justify-center space-x-2" data-testid="category-pagination">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => goToPage(currentPage - 1)}
-              disabled={currentPage === 1}
-              aria-label="Previous page"
-              data-testid="button-category-prev-page"
-            >
-              <ChevronLeft size={16} />
-            </Button>
-            
-            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-              let pageNum;
-              if (totalPages <= 5) {
-                pageNum = i + 1;
-              } else if (currentPage <= 3) {
-                pageNum = i + 1;
-              } else if (currentPage >= totalPages - 2) {
-                pageNum = totalPages - 4 + i;
-              } else {
-                pageNum = currentPage - 2 + i;
-              }
+        {/* Featured Article */}
+        {categoryArticles.length > 0 && !searchQuery && (
+          <div className="mb-12">
+            <ArticleCard article={categoryArticles[0]} variant="featured" />
+          </div>
+        )}
 
-              return (
-                <Button
-                  key={pageNum}
-                  variant={currentPage === pageNum ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => goToPage(pageNum)}
-                  className={currentPage === pageNum ? "bg-time-red hover:bg-time-red/90" : ""}
-                  data-testid={`button-category-page-${pageNum}`}
-                >
-                  {pageNum}
-                </Button>
-              );
-            })}
+        {/* Articles Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          {categoryArticles
+            .slice(searchQuery ? 0 : 1, visibleArticles)
+            .map((article) => (
+              <ArticleCard 
+                key={article.id} 
+                article={article} 
+                variant="large" 
+              />
+            ))}
+        </div>
 
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => goToPage(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              aria-label="Next page"
-              data-testid="button-category-next-page"
+        {/* Load More Button */}
+        {categoryArticles.length > visibleArticles && (
+          <div className="text-center">
+            <Button 
+              onClick={loadMoreArticles}
+              className="bg-time-red hover:bg-time-red/90"
+              data-testid="load-more-button"
             >
-              <ChevronRight size={16} />
+              Load More Articles
             </Button>
           </div>
         )}
-      </div>
+
+        {/* No Articles Message */}
+        {categoryArticles.length === 0 && (
+          <div className="text-center py-12">
+            <h2 className="text-xl font-semibold mb-4">No Articles Found</h2>
+            <p className="text-muted-foreground">
+              {searchQuery 
+                ? `No articles found for "${searchQuery}" in ${categoryInfo.name}`
+                : `No articles available in ${categoryInfo.name} category yet.`
+              }
+            </p>
+          </div>
+        )}
+      </main>
+      
+      <Footer />
     </div>
   );
 }

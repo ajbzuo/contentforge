@@ -1,32 +1,18 @@
+import { sql } from "drizzle-orm";
+import { pgTable, text, varchar } from "drizzle-orm/pg-core";
+import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const articleSchema = z.object({
-  id: z.string(),
-  title: z.string(),
-  slug: z.string(),
-  excerpt: z.string(),
-  content: z.string(),
-  author: z.string(),
-  date: z.string(),
-  category: z.string(),
-  imageUrl: z.string(),
-  readTime: z.string(),
-  featured: z.boolean().default(false),
+export const users = pgTable("users", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  username: text("username").notNull().unique(),
+  password: text("password").notNull(),
 });
 
-export const insertArticleSchema = articleSchema.omit({ id: true });
+export const insertUserSchema = createInsertSchema(users).pick({
+  username: true,
+  password: true,
+});
 
-export type Article = z.infer<typeof articleSchema>;
-export type InsertArticle = z.infer<typeof insertArticleSchema>;
-
-export const categories = [
-  "Politics",
-  "Business", 
-  "Technology",
-  "Health",
-  "Entertainment",
-  "Science",
-  "World"
-] as const;
-
-export type Category = typeof categories[number];
+export type InsertUser = z.infer<typeof insertUserSchema>;
+export type User = typeof users.$inferSelect;
