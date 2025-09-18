@@ -1,23 +1,26 @@
 
-# Static Content Site
+# Times-like Site Scaffold (Drop-in JSON)
 
-A simple static Next.js site that serves articles from a JSON file.
+A Times-style static Next.js site. Drop your `data/articles.json` with 30 longform articles and the site will render the homepage, sections, and article pages — no code changes required.
 
-## Features
-- Content stored in `data/content.json`
-- Homepage lists all articles
-- Dynamic article pages render markdown
-- Static export ready for Vercel
+## Dev
+npm install
+npm run dev
+# open http://localhost:3000
 
-## Local Setup
-1. `npm install`
-2. `npm run dev`
-3. Open http://localhost:3000
+## Static Export
+npm run build  # outputs ./out
 
-## Deploy to Vercel
-1. Push to a Git repo
-2. Import in Vercel
-3. Deploy (no env vars required)
-
-## Adding Content
-Edit `data/content.json` and redeploy.
+## JSON shape (array)
+[
+  {
+    "slug": "fed-rate-cut-sept2025",
+    "title": "Fed Cuts Key Rate for First Time in 2025",
+    "section": "Business",
+    "author": "Staff Reporter",
+    "date": "2025-09-17",
+    "image": "https://...",
+    "excerpt": "Short lede paragraph of the article.",
+    "body": "# Headline\n\n## Section\n\nLong markdown body here..."
+  }
+]
