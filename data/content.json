@@ -1,0 +1,23 @@
+
+[
+  {
+    "id": "welcome",
+    "title": "Welcome to the Static Site",
+    "body": "# Hello World\nThis is a sample article. Use this site to test Zephr paywalls."
+  },
+  {
+    "id": "pricing",
+    "title": "Pricing Strategies for Subscriptions",
+    "body": "# Pricing Models\nFlat fee, tiered, usage-based. Each has trade-offs."
+  },
+  {
+    "id": "segmentation",
+    "title": "Audience Segmentation Basics",
+    "body": "# Segmentation\nDemographics, behavior, and intent help tailor paywalls."
+  },
+  {
+    "id": "conversion",
+    "title": "Optimizing Conversion Funnels",
+    "body": "# Conversion Tips\nSimplify steps, remove friction, test offers."
+  }
+]
