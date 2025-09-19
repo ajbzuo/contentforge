@@ -1,0 +1,69 @@
+Time Replica Website - Requirement Brief
+
+1. Project Overview
+
+Build a high-performance, content-driven React website that closely resembles the look and feel of Time.com. The site will showcase 50 sample articles across various categories, with client-side routing and responsive design. The entire project should be deployable and editable within Replit in a single integrated phase.
+
+2. Goals & Objectives
+	•	Recreate the editorial layout and navigation structure of Time.com.
+	•	Expose a set of 50 articles (title, excerpt, content, author, date, image) via a static JSON data file.
+	•	Implement client-side routing with a homepage, category pages, and individual article pages.
+	•	Ensure full mobile responsiveness and accessibility.
+	•	Deploy directly on Replit with a single setup and run flow.
+
+3. Target Audience
+	•	Editorial teams reviewing the prototype.
+	•	Developers learning Replit deployment.
+	•	General readers browsing sample articles.
+
+4. Core Features
+	1.	Homepage
+	•	Featured articles carousel.
+	•	Paginated latest articles list.
+	2.	Category Pages (/category/:name)
+	•	Filterable by category with pagination.
+	3.	Article Detail Pages (/article/:slug)
+	•	Display title, author, date, image, and full content.
+	4.	Global Navigation
+	•	Header with logo and links (Home, Categories).
+	•	Footer with copyright and minimal links.
+	5.	Search Functionality
+	•	Client-side text search over titles and excerpts.
+	6.	Data Source
+	•	A single JSON file (src/data/articles.json) with 50 article objects.
+
+5. Technical Stack
+	•	Framework: React 18
+	•	Bundler: Vite
+	•	Routing: React Router v6
+	•	Styling: Tailwind CSS
+	•	Data: Static JSON import
+	•	Linting: ESLint + Prettier
+	•	Types: TypeScript optional
+	•	Deployment: Replit static site (single command)
+
+6. UI/UX & Accessibility
+	•	Responsive grid, typography, and images.
+	•	ARIA labels, keyboard navigation, and proper contrast.
+	•	Lazy-load images with loading="lazy".
+
+7. SEO & Metadata
+	•	<title> and <meta name="description"> per page from JSON.
+	•	OpenGraph tags for social sharing.
+
+8. Performance
+	•	Code-splitting via React.lazy.
+	•	Cache JSON in memory.
+	•	Minimal bundle size.
+
+9. Testing
+	•	Unit tests for key components.
+	•	Integration test for routing and data load.
+
+10. Documentation & Deployment
+	•	README.md: Setup, run, build, and deploy instructions.
+	•	Replit config (package.json scripts and .replit): Single command npm run start for live preview and npm run build for production.
+
+11. Delivery
+
+All features, code, tests, and deployment working in Replit within one continuous sprint. No staged approach—complete site in one go.
